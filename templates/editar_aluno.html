@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Editar aluno</h1>
+
+<div class="card">
+
+<form action="/atualizar_aluno" method="post">
+
+<input type="hidden" name="id" value="{{ aluno[0] }}">
+
+<label>Nome</label><br>
+<input type="text" name="nome" value="{{ aluno[1] }}">
+
+<br><br>
+
+<label>Email</label><br>
+<input type="email" name="email" value="{{ aluno[2] }}">
+
+<br><br>
+
+<label>Telefone</label><br>
+<input type="text" name="telefone" value="{{ aluno[3] }}">
+
+<br><br>
+
+<button type="submit">Atualizar</button>
+
+</form>
+
+</div>
+
+{% endblock %}

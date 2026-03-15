@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Editar Aula</h2>
+
+<form action="/atualizar_aula" method="POST">
+
+<input type="hidden" name="id" value="{{ aula[0] }}">
+
+<label>Aluno</label>
+
+<select name="aluno_id">
+
+{% for aluno in alunos %}
+
+<option value="{{ aluno[0] }}"
+{% if aluno[0] == aula[1] %} selected {% endif %}>
+
+{{ aluno[1] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>Conteúdo</label>
+
+<select name="conteudo_id">
+
+{% for conteudo in conteudos %}
+
+<option value="{{ conteudo[0] }}"
+{% if conteudo[0] == aula[2] %} selected {% endif %}>
+
+{{ conteudo[1] }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>Data</label>
+<input type="date" name="data" value="{{ aula[3] }}">
+
+<br><br>
+
+<label>Horário</label>
+<input type="time" name="horario" value="{{ aula[4] }}">
+
+<br><br>
+
+<button type="submit">
+Salvar Alterações
+</button>
+
+</form>
+
+{% endblock %}

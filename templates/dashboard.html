@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Sistema de Administração de Aulas</h1>
+
+<p>Bem-vindo ao painel do professor.</p>
+
+<h2>Painel do Professor</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total de alunos</h3>
+<p>{{ alunos }}</p>
+<a href="/alunos">Gerenciar alunos</a>
+</div>
+
+<div class="card">
+<h3>Total de aulas</h3>
+<p>{{ aulas }}</p>
+<a href="/agenda">Ver agenda</a>
+</div>
+
+</div>
+
+{% endblock %}

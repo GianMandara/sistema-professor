@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Agenda de Aulas</h1>
+
+<h2>Agendar Aula</h2>
+
+<form action="/salvar_aula" method="POST">
+
+<label>Aluno</label>
+
+<select name="aluno_id">
+
+{% for aluno in alunos %}
+
+<option value="{{ aluno[0] }}">
+{{ aluno[1] }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>Conteúdo</label>
+
+<select name="conteudo_id">
+
+{% for conteudo in conteudos %}
+
+<option value="{{ conteudo[0] }}">
+{{ conteudo[1] }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>Data</label>
+<input type="date" name="data">
+
+<br><br>
+
+<label>Horário</label>
+<input type="time" name="horario">
+
+<br><br>
+
+<button type="submit">
+Agendar Aula
+</button>
+
+</form>
+
+<hr>
+
+<h2>Aulas Agendadas</h2>
+
+<table border="1">
+
+<tr>
+<th>Aluno</th>
+<th>Conteúdo</th>
+<th>Data</th>
+<th>Horário</th>
+<th>Ações</th>
+</tr>
+
+{% for aula in aulas %}
+
+<tr>
+
+<td>{{ aula[1] }}</td>
+<td>{{ aula[2] }}</td>
+<td>{{ aula[3] }}</td>
+<td>{{ aula[4] }}</td>
+
+<td>
+
+<a href="/editar_aula/{{ aula[0] }}">
+Editar
+</a>
+
+|
+
+<a href="/excluir_aula/{{ aula[0] }}">
+Excluir
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

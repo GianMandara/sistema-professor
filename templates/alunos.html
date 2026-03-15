@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Cadastro de Alunos</h1>
+
+<div class="card">
+
+<form action="/salvar_aluno" method="post">
+
+<label>Nome</label><br>
+<input type="text" name="nome" required>
+
+<br><br>
+
+<label>Email</label><br>
+<input type="email" name="email">
+
+<br><br>
+
+<label>Telefone</label><br>
+<input type="text" name="telefone">
+
+<br><br>
+
+<button type="submit">Salvar</button>
+
+</form>
+
+</div>
+
+<br><br>
+
+<h2>Lista de alunos</h2>
+
+<div class="card">
+
+<table class="tabela-alunos">
+
+<tr>
+<th>Nome</th>
+<th>Email</th>
+<th>Telefone</th>
+<th>Ações</th>
+</tr>
+
+{% for aluno in alunos %}
+
+<tr>
+
+<td>{{ aluno[1] }}</td>
+<td>{{ aluno[2] }}</td>
+<td>{{ aluno[3] }}</td>
+
+<td class="acoes">
+
+<a class="btn-editar" href="/editar_aluno/{{ aluno[0] }}">Editar</a>
+
+<a class="btn-excluir" 
+href="/excluir_aluno/{{ aluno[0] }}"
+onclick="return confirm('Deseja excluir este aluno?')">
+Excluir
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}
