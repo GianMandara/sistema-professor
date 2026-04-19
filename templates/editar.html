@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">✏️ Editar Aluno</h2>
+
+    <div class="card p-4 shadow-sm">
+
+        <!-- ✅ FORM FUNCIONA COM SUA ROTA -->
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Nome</label>
+                <input type="text" name="nome"
+                       class="form-control"
+                       value="{{ aluno['nome'] }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email"
+                       class="form-control"
+                       value="{{ aluno['email'] }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Telefone</label>
+                <input type="text" name="telefone"
+                       class="form-control"
+                       value="{{ aluno['telefone'] }}" required>
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-check"></i> Atualizar
+            </button>
+
+            <a href="/alunos" class="btn btn-secondary">
+                Cancelar
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

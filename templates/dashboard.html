@@ -1,27 +1,66 @@
 {% extends "base.html" %}
-
 {% block conteudo %}
 
-<h1>Sistema de Administração de Aulas</h1>
+<h3>Dashboard</h3>
 
-<p>Bem-vindo ao painel do professor.</p>
+<div class="row mb-4">
 
-<h2>Painel do Professor</h2>
+    <div class="col-md-3">
+        <div class="card p-3 text-center shadow-sm">
+            <h6>Alunos</h6>
+            <h2>{{ alunos }}</h2>
+        </div>
+    </div>
 
-<div class="cards">
-
-<div class="card">
-<h3>Total de alunos</h3>
-<p>{{ alunos }}</p>
-<a href="/alunos">Gerenciar alunos</a>
-</div>
-
-<div class="card">
-<h3>Total de aulas</h3>
-<p>{{ aulas }}</p>
-<a href="/agenda">Ver agenda</a>
-</div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center shadow-sm">
+            <h6>Aulas</h6>
+            <h2>{{ aulas }}</h2>
+        </div>
+    </div>
 
 </div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+            <canvas id="grafico1"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+            <canvas id="grafico2"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const dados = {{ aulas_conteudo | tojson }};
+
+new Chart(document.getElementById("grafico1"), {
+    type: "bar",
+    data: {
+        labels: dados.map(d => d[0]),
+        datasets: [{
+            data: dados.map(d => d[1])
+        }]
+    }
+});
+
+new Chart(document.getElementById("grafico2"), {
+    type: "doughnut",
+    data: {
+        labels: ["Alunos", "Aulas"],
+        datasets: [{
+            data: [{{ alunos }}, {{ aulas }}]
+        }]
+    }
+});
+</script>
 
 {% endblock %}

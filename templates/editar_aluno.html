@@ -2,32 +2,57 @@
 
 {% block conteudo %}
 
-<h1>Editar aluno</h1>
+<div class="container mt-4">
 
-<div class="card">
+    <h2 class="mb-3">Editar Aluno</h2>
 
-<form action="/atualizar_aluno" method="post">
+    <div class="card p-4 shadow-sm">
 
-<input type="hidden" name="id" value="{{ aluno[0] }}">
+        <!-- ✅ Mantém na mesma rota /editar/<id> -->
+        <form method="POST">
 
-<label>Nome</label><br>
-<input type="text" name="nome" value="{{ aluno[1] }}">
+            <!-- ⚠️ Segurança (evita erro se aluno não existir) -->
+            {% if aluno %}
 
-<br><br>
+            <div class="mb-3">
+                <label class="form-label">Nome</label>
+                <input type="text" name="nome" class="form-control"
+                       value="{{ aluno['nome'] }}" required>
+            </div>
 
-<label>Email</label><br>
-<input type="email" name="email" value="{{ aluno[2] }}">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control"
+                       value="{{ aluno['email'] }}" required>
+            </div>
 
-<br><br>
+            <div class="mb-3">
+                <label class="form-label">Telefone</label>
+                <input type="text" name="telefone" class="form-control"
+                       value="{{ aluno['telefone'] }}" required>
+            </div>
 
-<label>Telefone</label><br>
-<input type="text" name="telefone" value="{{ aluno[3] }}">
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    💾 Atualizar
+                </button>
 
-<br><br>
+                <a href="/alunos" class="btn btn-secondary">
+                    Cancelar
+                </a>
+            </div>
 
-<button type="submit">Atualizar</button>
+            {% else %}
 
-</form>
+            <!-- Caso dê erro no ID -->
+            <p class="text-danger">Aluno não encontrado.</p>
+            <a href="/alunos" class="btn btn-secondary">Voltar</a>
+
+            {% endif %}
+
+        </form>
+
+    </div>
 
 </div>
 

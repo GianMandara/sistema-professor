@@ -2,101 +2,107 @@
 
 {% block conteudo %}
 
-<h1>Agenda de Aulas</h1>
+<div class="container mt-4">
 
-<h2>Agendar Aula</h2>
+    <h2 class="mb-3">Agenda de Aulas</h2>
 
-<form action="/salvar_aula" method="POST">
+    <!-- ========================= -->
+    <!-- FORM AGENDAR -->
+    <!-- ========================= -->
+    <div class="card p-4 mb-4 shadow-sm">
 
-<label>Aluno</label>
+        <h4>Agendar Aula</h4>
 
-<select name="aluno_id">
+        <form action="/salvar_aula" method="POST">
 
-{% for aluno in alunos %}
+            <div class="mb-3">
+                <label>Aluno</label>
+                <select name="aluno_id" class="form-control" required>
+                    {% for aluno in alunos %}
+                    <option value="{{ aluno['id'] }}">
+                        {{ aluno['nome'] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-<option value="{{ aluno[0] }}">
-{{ aluno[1] }}
-</option>
+            <div class="mb-3">
+                <label>Conteúdo</label>
+                <select name="conteudo_id" class="form-control" required>
+                    {% for conteudo in conteudos %}
+                    <option value="{{ conteudo['id'] }}">
+                        {{ conteudo['titulo'] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-{% endfor %}
+            <div class="mb-3">
+                <label>Data</label>
+                <input type="date" name="data" class="form-control" required>
+            </div>
 
-</select>
+            <div class="mb-3">
+                <label>Horário</label>
+                <input type="time" name="horario" class="form-control" required>
+            </div>
 
-<br><br>
+            <button class="btn btn-primary">
+                Agendar Aula
+            </button>
 
-<label>Conteúdo</label>
+        </form>
+    </div>
 
-<select name="conteudo_id">
+    <!-- ========================= -->
+    <!-- LISTA -->
+    <!-- ========================= -->
+    <div class="card p-4 shadow-sm">
 
-{% for conteudo in conteudos %}
+        <h4>Aulas Agendadas</h4>
 
-<option value="{{ conteudo[0] }}">
-{{ conteudo[1] }}
-</option>
+        <table class="table table-striped">
 
-{% endfor %}
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Conteúdo</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
 
-</select>
+            <tbody>
+                {% for aula in aulas %}
+                <tr>
 
-<br><br>
+                    <td>{{ aula['nome'] }}</td>
+                    <td>{{ aula['titulo'] }}</td>
+                    <td>{{ aula['data'] }}</td>
+                    <td>{{ aula['horario'] }}</td>
 
-<label>Data</label>
-<input type="date" name="data">
+                    <td>
+                        <a href="/editar_aula/{{ aula['id'] }}"
+                           class="btn btn-success btn-sm">
+                            Editar
+                        </a>
 
-<br><br>
+                        <a href="/excluir_aula/{{ aula['id'] }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Excluir aula?')">
+                            Excluir
+                        </a>
+                    </td>
 
-<label>Horário</label>
-<input type="time" name="horario">
+                </tr>
+                {% endfor %}
+            </tbody>
 
-<br><br>
+        </table>
 
-<button type="submit">
-Agendar Aula
-</button>
+    </div>
 
-</form>
-
-<hr>
-
-<h2>Aulas Agendadas</h2>
-
-<table border="1">
-
-<tr>
-<th>Aluno</th>
-<th>Conteúdo</th>
-<th>Data</th>
-<th>Horário</th>
-<th>Ações</th>
-</tr>
-
-{% for aula in aulas %}
-
-<tr>
-
-<td>{{ aula[1] }}</td>
-<td>{{ aula[2] }}</td>
-<td>{{ aula[3] }}</td>
-<td>{{ aula[4] }}</td>
-
-<td>
-
-<a href="/editar_aula/{{ aula[0] }}">
-Editar
-</a>
-
-|
-
-<a href="/excluir_aula/{{ aula[0] }}">
-Excluir
-</a>
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
+</div>
 
 {% endblock %}
