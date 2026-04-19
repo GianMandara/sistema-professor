@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 00cbac31e8131272c88211f521255bfb323cd1f8
 # Project Title
 
 Sistema web desenvolvido em Python utilizando Flask para auxiliar educadores autônomos na gestão de alunos, conteúdos pedagógicos e agenda de aulas individuais.
@@ -116,4 +119,8 @@ templates
     editar_aluno.html
     agenda.html
     editar_aula.html
+<<<<<<< HEAD
 README.md
+=======
+README.md
+>>>>>>> 00cbac31e8131272c88211f521255bfb323cd1f8
