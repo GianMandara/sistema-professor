@@ -7,8 +7,8 @@ import os
 
 app = Flask(__name__)
 
-EMAIL_REMETENTE = "gianluca.mandara.gm@gmail.com"
-SENHA_EMAIL = "knuq zghs pfou quxb"
+EMAIL_REMETENTE = "seu.email.aquigm@gmail.com"
+SENHA_EMAIL = "senha do aplicativo"
 
 # =========================
 # CONEXÃO

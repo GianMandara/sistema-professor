@@ -47,7 +47,9 @@ new Chart(document.getElementById("grafico1"), {
     data: {
         labels: dados.map(d => d[0]),
         datasets: [{
-            data: dados.map(d => d[1])
+            label: "Aulas agendadas", // 👈 AQUI ESTÁ A CORREÇÃO
+            data: dados.map(d => d[1]),
+            backgroundColor: "#4e73df"
         }]
     }
 });
