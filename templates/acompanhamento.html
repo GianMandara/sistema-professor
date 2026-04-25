@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<div class="container mt-4">
+
+    <h2>Acompanhamento de Aulas</h2>
+
+    <table class="table table-bordered mt-3">
+
+        <thead>
+            <tr>
+                <th>Aluno</th>
+                <th>Conteúdo</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Compareceu</th>
+                <th>Nota</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for aula in aulas %}
+
+        <form method="POST">
+
+            <tr>
+                <td>{{ aula['nome'] }}</td>
+                <td>{{ aula['titulo'] }}</td>
+                <td>{{ aula['data'] }}</td>
+                <td>{{ aula['horario'] }}</td>
+
+                <td>
+                    <input type="checkbox" name="compareceu" value="1"
+                    {% if aula['compareceu'] == 1 %} checked {% endif %}>
+                </td>
+
+                <td>
+                    <input type="number" name="nota" min="0" max="10"
+                    value="{{ aula['nota'] or '' }}" class="form-control">
+                </td>
+
+                <td>
+                    <input type="hidden" name="id" value="{{ aula['id'] }}">
+                    <button class="btn btn-success btn-sm">Salvar</button>
+                </td>
+            </tr>
+
+        </form>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

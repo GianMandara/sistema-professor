@@ -7,8 +7,8 @@ import os
 
 app = Flask(__name__)
 
-EMAIL_REMETENTE = "seu.email.aquigm@gmail.com"
-SENHA_EMAIL = "senha do aplicativo"
+EMAIL_REMETENTE = "seuemail@gmail.com"
+SENHA_EMAIL = "sua_senha_app"
 
 # =========================
 # CONEXÃO
@@ -20,14 +20,11 @@ def conectar():
     return conn
 
 # =========================
-# VALIDAR EMAIL
+# EMAIL
 # =========================
 def email_valido(email):
     return email and re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', email)
 
-# =========================
-# ENVIAR EMAIL
-# =========================
 def enviar_email(destinatario, nome, data, horario):
     try:
         msg = MIMEText(f"""
@@ -37,8 +34,6 @@ Sua aula foi agendada com sucesso!
 
 📅 Data: {data}
 ⏰ Horário: {horario}
-
-Até breve!
 """)
 
         msg["Subject"] = "Aula Agendada"
@@ -76,15 +71,13 @@ def dashboard():
 
     conn.close()
 
-    return render_template(
-        "dashboard.html",
-        alunos=alunos,
-        aulas=aulas,
-        aulas_conteudo=aulas_conteudo
-    )
+    return render_template("dashboard.html",
+                           alunos=alunos,
+                           aulas=aulas,
+                           aulas_conteudo=aulas_conteudo)
 
 # =========================
-# ALUNOS (GET + POST juntos)
+# ALUNOS
 # =========================
 @app.route("/alunos", methods=["GET", "POST"])
 def alunos():
@@ -93,11 +86,9 @@ def alunos():
     if request.method == "POST":
         conn.execute(
             "INSERT INTO alunos (nome,email,telefone) VALUES (?,?,?)",
-            (
-                request.form["nome"],
-                request.form["email"],
-                request.form["telefone"]
-            )
+            (request.form["nome"],
+             request.form["email"],
+             request.form["telefone"])
         )
         conn.commit()
         conn.close()
@@ -105,7 +96,6 @@ def alunos():
 
     lista = conn.execute("SELECT * FROM alunos").fetchall()
     conn.close()
-
     return render_template("alunos.html", alunos=lista)
 
 # =========================
@@ -115,13 +105,7 @@ def alunos():
 def editar(id):
     conn = conectar()
 
-    aluno = conn.execute(
-        "SELECT * FROM alunos WHERE id=?", (id,)
-    ).fetchone()
-
-    if not aluno:
-        conn.close()
-        return "Aluno não encontrado", 404
+    aluno = conn.execute("SELECT * FROM alunos WHERE id=?", (id,)).fetchone()
 
     if request.method == "POST":
         conn.execute("""
@@ -169,7 +153,10 @@ def agenda():
 
     conn.close()
 
-    return render_template("agenda.html", alunos=alunos, conteudos=conteudos, aulas=aulas)
+    return render_template("agenda.html",
+                           alunos=alunos,
+                           conteudos=conteudos,
+                           aulas=aulas)
 
 # =========================
 # SALVAR AULA
@@ -197,12 +184,8 @@ def salvar_aula():
     conn.close()
 
     if aluno and email_valido(aluno["email"]):
-        enviar_email(
-            aluno["email"],
-            aluno["nome"],
-            request.form["data"],
-            request.form["horario"]
-        )
+        enviar_email(aluno["email"], aluno["nome"],
+                     request.form["data"], request.form["horario"])
 
     return redirect("/agenda")
 
@@ -235,7 +218,10 @@ def editar_aula(id):
 
     conn.close()
 
-    return render_template("editar_aula.html", aula=aula, alunos=alunos, conteudos=conteudos)
+    return render_template("editar_aula.html",
+                           aula=aula,
+                           alunos=alunos,
+                           conteudos=conteudos)
 
 # =========================
 # EXCLUIR AULA
@@ -247,6 +233,38 @@ def excluir_aula(id):
     conn.commit()
     conn.close()
     return redirect("/agenda")
+
+# =========================
+# ACOMPANHAMENTO
+# =========================
+@app.route("/acompanhamento", methods=["GET", "POST"])
+def acompanhamento():
+    conn = conectar()
+
+    if request.method == "POST":
+        conn.execute("""
+        UPDATE aulas
+        SET compareceu=?, nota=?
+        WHERE id=?
+        """, (
+            request.form.get("compareceu", 0),
+            request.form.get("nota"),
+            request.form.get("id")
+        ))
+        conn.commit()
+
+    aulas = conn.execute("""
+    SELECT aulas.id, alunos.nome, conteudos.titulo,
+           aulas.data, aulas.horario,
+           aulas.compareceu, aulas.nota
+    FROM aulas
+    JOIN alunos ON aulas.aluno_id = alunos.id
+    JOIN conteudos ON aulas.conteudo_id = conteudos.id
+    """).fetchall()
+
+    conn.close()
+
+    return render_template("acompanhamento.html", aulas=aulas)
 
 # =========================
 # RUN
