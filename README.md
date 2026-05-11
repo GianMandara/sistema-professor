@@ -14,7 +14,7 @@ O sistema foi projetado para ser simples, leve e executável via navegador, perm
 
 ## Deployment
 
-Executar a aplicação
+Executar a aplicação no IDE VsCode
 python app.py
 5 - Acessar no navegador
 http://127.0.0.1:5000
